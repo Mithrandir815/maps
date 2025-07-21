@@ -15,11 +15,9 @@ export default function Header({ onShowAuth }: HeaderProps) {
     <div className="w-full max-w-6xl flex justify-between items-center">
       <div className="flex items-center gap-3">
         <span className="text-4xl">🗺️</span>
-        <h1 className={styles.text.title}>
-          EcoMaps - ルート検索
-        </h1>
+        <h1 className={styles.text.title}>EcoMaps - ルート検索</h1>
       </div>
-      
+
       {/* ユーザー認証エリア */}
       <div className="flex items-center gap-4">
         {user ? (

@@ -6,12 +6,9 @@ import { getAuthUser, requireAuth } from "@/lib/auth";
 export async function GET(request: NextRequest) {
   try {
     const user = getAuthUser(request);
-    
+
     if (!user) {
-      return NextResponse.json(
-        { error: "認証が必要です" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "認証が必要です" }, { status: 401 });
     }
 
     const places = await prisma.favoritePlace.findMany({
@@ -59,12 +56,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ place }, { status: 201 });
   } catch (error) {
     if (error instanceof Error && error.message === "認証が必要です") {
-      return NextResponse.json(
-        { error: "認証が必要です" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "認証が必要です" }, { status: 401 });
     }
-    
+
     console.error("お気に入り場所保存エラー:", error);
     return NextResponse.json(
       { error: "お気に入り場所の保存に失敗しました" },
@@ -78,13 +72,10 @@ export async function DELETE(request: NextRequest) {
   try {
     const user = requireAuth(request);
     const { searchParams } = new URL(request.url);
-    const placeId = searchParams.get('id');
+    const placeId = searchParams.get("id");
 
     if (!placeId) {
-      return NextResponse.json(
-        { error: "場所IDが必要です" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "場所IDが必要です" }, { status: 400 });
     }
 
     // ユーザーが所有する場所のみ削除可能
@@ -111,12 +102,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "削除しました" });
   } catch (error) {
     if (error instanceof Error && error.message === "認証が必要です") {
-      return NextResponse.json(
-        { error: "認証が必要です" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "認証が必要です" }, { status: 401 });
     }
-    
+
     console.error("お気に入り場所削除エラー:", error);
     return NextResponse.json(
       { error: "お気に入り場所の削除に失敗しました" },

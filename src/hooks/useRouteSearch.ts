@@ -40,7 +40,7 @@ export function useRouteSearch(): UseRouteSearchReturn {
         if (status === "OK" && result) {
           setDirectionsResponse(result);
           console.log("ルート検索成功:", result);
-          
+
           // ルート情報をデータベースに保存（ログイン済みの場合）
           saveRouteToDatabase(origin, destination, result);
         } else {
@@ -66,21 +66,21 @@ export function useRouteSearch(): UseRouteSearchReturn {
     try {
       const route = result.routes[0];
       const leg = route.legs[0];
-      
-      await fetch('/api/routes', {
-        method: 'POST',
+
+      await fetch("/api/routes", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           origin,
           destination,
-          distance: leg.distance?.text || '',
-          duration: leg.duration?.text || '',
+          distance: leg.distance?.text || "",
+          duration: leg.duration?.text || "",
         }),
       });
     } catch (error) {
-      console.error('ルート履歴の保存エラー:', error);
+      console.error("ルート履歴の保存エラー:", error);
       // エラーが発生してもルート検索は続行
     }
   };

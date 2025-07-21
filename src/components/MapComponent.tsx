@@ -1,6 +1,11 @@
 "use client";
 
-import { GoogleMap, LoadScript, DirectionsRenderer, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  LoadScript,
+  DirectionsRenderer,
+  Marker,
+} from "@react-google-maps/api";
 import { useState, useEffect, useRef } from "react";
 
 const containerStyle = {
@@ -21,12 +26,16 @@ interface MapComponentProps {
   onMapClick?: (location: { lat: number; lng: number }) => void;
 }
 
-export default function MapComponent({ directionsResponse, selectedPlace, onMapClick }: MapComponentProps) {
+export default function MapComponent({
+  directionsResponse,
+  selectedPlace,
+  onMapClick,
+}: MapComponentProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const mapRef = useRef<google.maps.Map | null>(null);
-  
+
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   // 選択された場所が変更されたときに地図の中心を移動
@@ -47,7 +56,8 @@ export default function MapComponent({ directionsResponse, selectedPlace, onMapC
           <div className="text-red-500 p-4 border border-red-300 rounded">
             エラー: Google Maps API キーが設定されていません。
             <br />
-            .env.local ファイルに NEXT_PUBLIC_GOOGLE_MAPS_API_KEY を設定してください。
+            .env.local ファイルに NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+            を設定してください。
           </div>
         </main>
       </div>
@@ -100,7 +110,7 @@ export default function MapComponent({ directionsResponse, selectedPlace, onMapC
               title={selectedPlace.name}
             />
           )}
-          
+
           {/* ルートを表示 */}
           {directionsResponse && (
             <DirectionsRenderer

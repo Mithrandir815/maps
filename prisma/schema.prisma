@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ユーザーモデル
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique @db.VarChar(255)
+  name          String?        @db.VarChar(255)
+  password      String         @db.VarChar(255)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  // リレーション
+  favoritePlace FavoritePlace[]
+  routeHistory  RouteHistory[]
+
+  @@map("users")
+}
+
+// ルート検索履歴のモデル
+model RouteHistory {
+  id          Int      @id @default(autoincrement())
+  origin      String   @db.VarChar(255)
+  destination String   @db.VarChar(255)
+  distance    String?  @db.VarChar(100)
+  duration    String?  @db.VarChar(100)
+  userId      String?  @db.VarChar(255)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // リレーション
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("route_history")
+}
+
+// ユーザーのお気に入り場所のモデル
+model FavoritePlace {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  address   String   @db.Text
+  latitude  Float
+  longitude Float
+  userId    String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // リレーション
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("favorite_places")
+}

@@ -75,7 +75,12 @@ export default function AuthForm({ onClose }: AuthFormProps) {
 
   return (
     <div className={styles.container.modal}>
-      <div className={clsx(styles.container.card, "p-8 w-full max-w-md mx-4 border-green-200")}>
+      <div
+        className={clsx(
+          styles.container.card,
+          "p-8 w-full max-w-md mx-4 border-green-200"
+        )}
+      >
         <div className="flex justify-between items-center mb-6">
           <h2 className={clsx(styles.text.subtitle, "flex items-center gap-2")}>
             {isLogin ? "🔐 ログイン" : "👤 ユーザー登録"}

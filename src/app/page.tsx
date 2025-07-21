@@ -12,12 +12,19 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
   const [showAuthForm, setShowAuthForm] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<{ lat: number; lng: number; name: string } | null>(null);
-  const [addPlaceLocation, setAddPlaceLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<{
+    lat: number;
+    lng: number;
+    name: string;
+  } | null>(null);
+  const [addPlaceLocation, setAddPlaceLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  
+
   const { user } = useAuth();
-  
+
   const {
     directionsResponse,
     isSearching,
@@ -26,7 +33,11 @@ export default function Home() {
     clearRoute,
   } = useRouteSearch();
 
-  const handleSelectPlace = (place: { name: string; lat: number; lng: number }) => {
+  const handleSelectPlace = (place: {
+    name: string;
+    lat: number;
+    lng: number;
+  }) => {
     setSelectedPlace({
       lat: place.lat,
       lng: place.lng,
@@ -40,25 +51,30 @@ export default function Home() {
     }
   };
 
-  const handleSavePlace = async (place: { name: string; address: string; latitude: number; longitude: number }) => {
+  const handleSavePlace = async (place: {
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+  }) => {
     try {
-      const response = await fetch('/api/favorites', {
-        method: 'POST',
+      const response = await fetch("/api/favorites", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(place),
       });
 
       if (response.ok) {
         // お気に入り場所が保存されたら、リフレッシュトリガーを更新
-        setRefreshTrigger(prev => prev + 1);
+        setRefreshTrigger((prev) => prev + 1);
       } else {
-        alert('お気に入り場所の保存に失敗しました');
+        alert("お気に入り場所の保存に失敗しました");
       }
     } catch (error) {
-      console.error('お気に入り場所の保存エラー:', error);
-      alert('エラーが発生しました');
+      console.error("お気に入り場所の保存エラー:", error);
+      alert("エラーが発生しました");
     }
   };
 
@@ -80,11 +96,11 @@ export default function Home() {
               />
 
               {/* お気に入り場所 */}
-              <FavoritePlaces 
+              <FavoritePlaces
                 onSelectPlace={handleSelectPlace}
                 refreshTrigger={refreshTrigger}
               />
-              
+
               {/* 地図操作の説明 */}
               {user && (
                 <div className="text-sm text-green-700 p-3 bg-green-100 rounded-lg border border-green-200">
@@ -96,9 +112,11 @@ export default function Home() {
             {/* Google Map */}
             <div className="flex-1">
               <div className="bg-white rounded-lg shadow-xl p-4 border border-green-200">
-                <h2 className="text-lg font-semibold mb-4 text-green-800">🗺️ マップ</h2>
-                <MapComponent 
-                  directionsResponse={directionsResponse} 
+                <h2 className="text-lg font-semibold mb-4 text-green-800">
+                  🗺️ マップ
+                </h2>
+                <MapComponent
+                  directionsResponse={directionsResponse}
                   selectedPlace={selectedPlace}
                   onMapClick={handleMapClick}
                 />
@@ -106,12 +124,10 @@ export default function Home() {
             </div>
           </div>
         </main>
-        
+
         {/* 認証フォームモーダル */}
-        {showAuthForm && (
-          <AuthForm onClose={() => setShowAuthForm(false)} />
-        )}
-        
+        {showAuthForm && <AuthForm onClose={() => setShowAuthForm(false)} />}
+
         {/* 場所追加モーダル */}
         {addPlaceLocation && (
           <AddPlaceModal

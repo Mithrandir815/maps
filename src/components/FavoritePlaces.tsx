@@ -19,11 +19,14 @@ interface FavoritePlacesProps {
   refreshTrigger?: number; // 外部からのリフレッシュトリガー
 }
 
-export default function FavoritePlaces({ onSelectPlace, refreshTrigger }: FavoritePlacesProps) {
+export default function FavoritePlaces({
+  onSelectPlace,
+  refreshTrigger,
+}: FavoritePlacesProps) {
   const [places, setPlaces] = useState<FavoritePlace[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { user } = useAuth();
 
   useEffect(() => {
@@ -35,16 +38,16 @@ export default function FavoritePlaces({ onSelectPlace, refreshTrigger }: Favori
   const fetchFavoritePlaces = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/favorites');
+      const response = await fetch("/api/favorites");
       if (response.ok) {
         const data = await response.json();
         setPlaces(data.places);
       } else {
-        setError('お気に入り場所の取得に失敗しました');
+        setError("お気に入り場所の取得に失敗しました");
       }
     } catch (err) {
-      console.error('お気に入り場所の取得エラー:', err);
-      setError('エラーが発生しました');
+      console.error("お気に入り場所の取得エラー:", err);
+      setError("エラーが発生しました");
     } finally {
       setLoading(false);
     }
@@ -53,23 +56,28 @@ export default function FavoritePlaces({ onSelectPlace, refreshTrigger }: Favori
   const deleteFavoritePlace = async (placeId: number) => {
     try {
       const response = await fetch(`/api/favorites?id=${placeId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
         fetchFavoritePlaces(); // 再取得
       } else {
-        setError('お気に入り場所の削除に失敗しました');
+        setError("お気に入り場所の削除に失敗しました");
       }
     } catch (err) {
-      console.error('お気に入り場所の削除エラー:', err);
-      setError('エラーが発生しました');
+      console.error("お気に入り場所の削除エラー:", err);
+      setError("エラーが発生しました");
     }
   };
 
   if (!user) {
     return (
-      <div className={clsx(styles.container.card, "w-full max-w-md p-6 border-green-200")}>
+      <div
+        className={clsx(
+          styles.container.card,
+          "w-full max-w-md p-6 border-green-200"
+        )}
+      >
         <h3 className={clsx(styles.text.heading, "mb-2")}>⭐ お気に入り場所</h3>
         <p className={styles.text.muted}>
           お気に入り場所を保存するにはログインしてください
@@ -79,23 +87,22 @@ export default function FavoritePlaces({ onSelectPlace, refreshTrigger }: Favori
   }
 
   return (
-    <div className={clsx(styles.container.card, "w-full max-w-md p-6 border-green-200")}>
-      <h3 className={clsx(styles.text.heading, "mb-4")}>⭐ お気に入り場所</h3>
-      
-      {error && (
-        <div className={styles.text.error}>
-          {error}
-        </div>
+    <div
+      className={clsx(
+        styles.container.card,
+        "w-full max-w-md p-6 border-green-200"
       )}
+    >
+      <h3 className={clsx(styles.text.heading, "mb-4")}>⭐ お気に入り場所</h3>
+
+      {error && <div className={styles.text.error}>{error}</div>}
 
       {loading ? (
         <div className="text-center py-4">
           <span className={styles.text.muted}>読み込み中...</span>
         </div>
       ) : places.length === 0 ? (
-        <p className={styles.text.muted}>
-          まだお気に入り場所がありません
-        </p>
+        <p className={styles.text.muted}>まだお気に入り場所がありません</p>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {places.map((place) => (
@@ -103,13 +110,15 @@ export default function FavoritePlaces({ onSelectPlace, refreshTrigger }: Favori
               key={place.id}
               className="p-3 border border-green-200 rounded-md hover:bg-green-50 transition-colors bg-white shadow-sm"
             >
-              <div 
+              <div
                 className="cursor-pointer"
-                onClick={() => onSelectPlace({
-                  name: place.name,
-                  lat: place.latitude,
-                  lng: place.longitude,
-                })}
+                onClick={() =>
+                  onSelectPlace({
+                    name: place.name,
+                    lat: place.latitude,
+                    lng: place.longitude,
+                  })
+                }
               >
                 <div className="font-medium text-sm text-gray-800 flex items-center gap-1">
                   📍 {place.name}

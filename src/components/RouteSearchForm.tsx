@@ -32,9 +32,14 @@ export default function RouteSearchForm({
   };
 
   return (
-    <div className={clsx(styles.container.card, "w-full max-w-md p-6 border-green-200")}>
+    <div
+      className={clsx(
+        styles.container.card,
+        "w-full max-w-md p-6 border-green-200"
+      )}
+    >
       <h2 className={clsx(styles.text.heading, "mb-4")}>🚗 ルート検索</h2>
-      
+
       <form onSubmit={handleSubmit} className={styles.container.form}>
         <div>
           <label className={styles.text.label}>出発地</label>
@@ -71,7 +76,7 @@ export default function RouteSearchForm({
           >
             {isSearching ? "検索中..." : "ルート検索"}
           </button>
-          
+
           <button
             type="button"
             onClick={handleClear}
@@ -81,11 +86,7 @@ export default function RouteSearchForm({
           </button>
         </div>
 
-        {searchError && (
-          <div className={styles.text.error}>
-            {searchError}
-          </div>
-        )}
+        {searchError && <div className={styles.text.error}>{searchError}</div>}
       </form>
     </div>
   );

@@ -6,29 +6,33 @@
 
 ## 📁 プライベートファイル
 
-以下のファイルは**絶対にGitにコミットしないでください**：
+以下のファイルは**絶対に Git にコミットしないでください**：
 
 ### 🔐 環境変数ファイル
+
 - `.env.local`
-- `.env.development.local` 
+- `.env.development.local`
 - `.env.test.local`
 - `.env.production.local`
 - `.env` (すべての .env ファイル)
 
 ### 🗄️ データベース関連
+
 - `/prisma/migrations/` (マイグレーションファイル)
 - `*.db`, `*.sqlite`, `*.sqlite3` (データベースファイル)
 - データベースのバックアップファイル
 
-### 🔑 APIキーとクレデンシャル
+### 🔑 API キーとクレデンシャル
+
 - Google Maps API キー
-- JWTシークレット
+- JWT シークレット
 - データベース接続情報
 - サービスアカウントキー
 
 ## 🛡️ セットアップ手順
 
 ### 1. 環境変数の設定
+
 ```bash
 # .env.example をコピーして設定
 cp .env.example .env.local
@@ -36,22 +40,25 @@ cp .env.example .env.local
 # .env.local を編集して実際の値を設定
 ```
 
-### 2. 必要なAPI キーの取得
+### 2. 必要な API キーの取得
 
 #### Google Maps API
+
 1. [Google Cloud Console](https://console.cloud.google.com/) にアクセス
 2. 新しいプロジェクト作成または既存プロジェクト選択
 3. Maps JavaScript API を有効化
-4. APIキーを作成
+4. API キーを作成
 5. `.env.local` の `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` に設定
 
-#### JWTシークレット
+#### JWT シークレット
+
 ```bash
 # 安全なランダム文字列を生成
 openssl rand -base64 32
 ```
 
 ### 3. データベースの設定
+
 ```bash
 # MySQL の起動
 brew services start mysql
@@ -66,23 +73,25 @@ npx prisma migrate dev
 
 ## 🚫 GitHub Copilot 除外設定
 
-`.copilotignore` ファイルにより、以下のファイルはCopilotの学習対象から除外されます：
+`.copilotignore` ファイルにより、以下のファイルは Copilot の学習対象から除外されます：
 
 - 環境変数ファイル
 - データベース設定
 - 認証関連ファイル
-- APIキー
+- API キー
 - プライベートドキュメント
 
-## ✅ Gitの安全な使用
+## ✅ Git の安全な使用
 
 ### コミット前のチェックリスト
+
 - [ ] `.env*` ファイルが含まれていないか確認
-- [ ] APIキーが含まれていないか確認
+- [ ] API キーが含まれていないか確認
 - [ ] データベースファイルが含まれていないか確認
 - [ ] 個人情報が含まれていないか確認
 
 ### 安全なコミットコマンド
+
 ```bash
 # 変更ファイルの確認
 git status
@@ -105,6 +114,7 @@ git push origin main
 ## 🚨 万が一の対処法
 
 ### 機密情報をコミットしてしまった場合
+
 ```bash
 # 直前のコミットから削除
 git reset --soft HEAD~1
