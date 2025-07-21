@@ -1,0 +1,51 @@
+{
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "env": false,
+    "dotenv": false
+  },
+  "github.copilot.advanced": {
+    "length": 500,
+    "temperature": "",
+    "top_p": "",
+    "stop": ["#", "//"],
+    "indentationMode": {
+      "python": "spaces",
+      "javascript": "tabs",
+      "typescript": "tabs"
+    }
+  },
+  "files.exclude": {
+    "**/.env*": true,
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/build": true,
+    "**/*.log": true,
+    "**/src/generated": true
+  },
+  "search.exclude": {
+    "**/.env*": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/*.log": true,
+    "**/src/generated": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/out/**": true,
+    "**/build/**": true,
+    "**/dist/**": true,
+    "**/*.log": true
+  }
+}
